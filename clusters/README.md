@@ -20,31 +20,31 @@ source kubespray-venv/bin/activate
 # Install ansible 
 ```
 cd kubespray
-pip install -U -r requirements-2.12.txt
+pip install -U -r requirements.txt
 ```
 
 # Create hosts inventory
 ```
-declare -a IPS=(172.20.0.21 172.20.0.22 172.20.0.23 172.20.0.24 172.20.0.25)
+declare -a IPS=(172.16.102.7 172.16.102.8 172.16.102.9 172.16.102.10)
 cd ../ 
 mkdir -p cluster/homelab-k8s
-CONFIG_FILE=cluster/homelab-k8s/hosts.yaml python3 kubespray/contrib/inventory_builder/inventory.py ${IPS[@]}
+CONFIG_FILE=cluster/homelab-k8s/hosts.yml python3 kubespray/contrib/inventory_builder/inventory.py ${IPS[@]}
 ```
 
 # Inspect hosts.yaml
 ```
-cat cluster/homelab-k8s/hosts.yaml
+cat cluster/homelab-k8s/hosts.yml
 ```
 
 # Deploy cluster
 ```
 cd kubespray
-ansible-playbook -i ../cluster/homelab-k8s/hosts.yaml -e @../cluster/homelab-k8s/cluster-config.yaml --user=debian --become --become-user=root cluster.yaml
+ansible-playbook -i ../cluster/homelab-k8s/hosts.yml -e @../cluster/homelab-k8s/cluster-config.yml --user=debian --become --become-user=root cluster.yml
 ```
 
 # Verify deployment
 ```
-ssh debian@172.20.0.21
+ssh root@172.16.102.7
 sudo -i 
 kubectl get nodes
 kubectl -n kube-system get pods
@@ -53,16 +53,16 @@ less /etc/kubernetes/admin.conf
 
 # Upgrade Cluster
 ```
-ansible-playbook -i ../cluster/homelab-k8s/hosts.yaml -e @../cluster/homelab-k8s/cluster-config.yaml --user=debian --become --become-user=root upgrade-cluster.yaml
+ansible-playbook -i ../cluster/homelab-k8s/hosts.yml -e @../cluster/homelab-k8s/cluster-config.yml --user=debian --become --become-user=root upgrade-cluster.yml
 ```
 
 # Scale Down Cluster
 ```
-ansible-playbook -i ../cluster/homelab-k8s/hosts.yaml -e @../cluster/homelab-k8s/cluster-config.yaml --user=debian --become --become-user=root remove-node.yaml -e node=node5
+ansible-playbook -i ../cluster/homelab-k8s/hosts.yml -e @../cluster/homelab-k8s/cluster-config.yml --user=root --become --become-user=root remove-node.yml -e node=node5
 ```
 
 
 # Scale Up cluster
 ```
-ansible-playbook -i ../cluster/homelab-k8s/hosts.yaml -e @../cluster/homelab-k8s/cluster-config.yaml --user=debian --become --become-user=root scale.yaml --limit=node5
+ansible-playbook -i ../cluster/homelab-k8s/hosts.yml -e @../cluster/homelab-k8s/cluster-config.yml --user=root --become --become-user=root scale.yml --limit=node5
 ```
