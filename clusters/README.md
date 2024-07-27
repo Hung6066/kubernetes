@@ -1,3 +1,37 @@
+# Install linux under window and install Ansible
+Step 1: Install WSL
+Open PowerShell as Administrator and run the following command to enable WSL:
+```
+wsk --install
+```
+This command will install WSL and the default Ubuntu distribution.
+
+Restart your computer if prompted.
+
+Step 2: Set Up Ubuntu
+Open Ubuntu from the Start Menu.
+Set up your user account by following the on-screen instructions.
+Step 3: Install Ansible on Ubuntu
+Update the package list:
+```
+sudo apt update
+```
+Install Ansible:
+```
+sudo apt install ansible -y
+```
+
+Verify the installation:
+```
+ansible --version
+```
+
+Step 4: Use Ansible
+You can now use Ansible from within the Ubuntu terminal. For example, to run your playbook:
+
+This setup allows you to use Ansible on a Windows machine by leveraging the Linux environment provided by WSL.
+ansible-playbook -i ../cluster/homelab-k8s/hosts.yaml -e @../cluster/homelab-k8s/cluster-config.yaml --user=debian --become --become-user=root kubespray/cluster.yml
+
 # Create Project Directory
 ```
 pip install ruamel.yaml
