@@ -1,5 +1,6 @@
 # Create Project Directory
 ```
+pip install ruamel.yaml
 mkdir -p homelab/kubernetes
 cd homelab/kubernetes
 ```
