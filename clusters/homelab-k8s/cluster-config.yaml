@@ -1,2 +1,2 @@
 cluster_name: homelab-k8s
-kube_version: v1.26.5
+kube_version: v1.30.0
